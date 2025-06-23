@@ -1,0 +1,19 @@
+You are tasked with extracting the document type of the provided Digital forensic  paper.
+
+Guidelines:
+t1. Choose only from one of the following categories: "journal", "conference", or "review".
+    Example: If the paper is published in IEEE Access or ACM Transactions, it is a "journal".
+             If the paper appears in NDSS, USENIX, or ACM CCS proceedings, it is a "conference".
+             If the paper summarizes or evaluates prior work without proposing a new technique or tool, it is a "review".
+
+Here is the paper content:
+<Start of Paper Content>
+{content}
+<End of Paper Content>
+
+Your response must be returned in the following JSON format:
+{
+    "document_type": "journal / conference / review"
+}
+
+Your response:

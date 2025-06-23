@@ -8,7 +8,7 @@ def generate_system_prompt(paper, task):
 You are an expert digital forensics research assistant. Your task is to extract core bibliographic metadata from an academic paper.
 
 ==============================
-🎯 OBJECTIVE
+ OBJECTIVE
 ==============================
 Identify and extract key details about the paper's identity:
 - Title
@@ -17,7 +17,7 @@ Identify and extract key details about the paper's identity:
 - Document type
 
 ==============================
-📌 INSTRUCTIONS
+ INSTRUCTIONS
 ==============================
 1. **Title**:
    - The full title is usually at the top of the first page.
@@ -37,7 +37,7 @@ Identify and extract key details about the paper's identity:
    - Use clues like publication name, headings, or formatting styles.
    - If the paper explicitly states it is a review, select `"Review"`.
 
-✅ Examples:
+ Examples:
 
 - **Title**: "Anti-Forensics in Android: A Comprehensive Review of Techniques and Challenges"
 - **Authors**: "Jane Doe, John Smith, Ravi Kumar"
@@ -45,7 +45,7 @@ Identify and extract key details about the paper's identity:
 - **Document Type**: "Journal"
 
 ==============================
-📤 OUTPUT FORMAT (JSON)
+ OUTPUT FORMAT (JSON)
 ==============================
 Return only the following JSON:
 
@@ -57,7 +57,7 @@ Return only the following JSON:
 }}
 
 ==============================
-📘 PAPER CONTENT
+ PAPER CONTENT
 ==============================
 <Start of Paper Content>
 {content}
@@ -70,12 +70,12 @@ Your response:
         return f"""
 You are analyzing the topic focus and relevance of the academic paper titled:
 
-📄 "{title}"
+ "{title}"
 
 Your goal is to extract metadata about the study's **main topic**, and whether it discusses anti-forensics and mobile platforms.
 
 ==============================
-🎯 OBJECTIVE
+ OBJECTIVE
 ==============================
 Summarize the primary subject of the paper and answer Boolean-style questions about its relevance to:
 - Anti-forensics
@@ -83,14 +83,14 @@ Summarize the primary subject of the paper and answer Boolean-style questions ab
 - Mobile device focus
 
 ==============================
-📌 INSTRUCTIONS
+ INSTRUCTIONS
 ==============================
 1. **Main Topic**:
    - Summarize what the paper is about in **1–2 precise, academic sentences**.
    - Do NOT quote or paraphrase aimlessly.
    - Instead, infer a clear theme or objective of the paper.
 
-✅ Example:
+ Example:
 - "The study explores anti-forensic methods used on Android smartphones, focusing on secure deletion, artifact hiding, and forensic evasion strategies."
 
 2. **Explicitly About Anti-Forensics?**
@@ -107,13 +107,13 @@ Summarize the primary subject of the paper and answer Boolean-style questions ab
    - Return `"No"` if it does not relate to mobile devices at all.
 
 5. **If 'Partially'**, explain the mention briefly.
-   ✅ Example: "The paper compares Android and Windows forensic challenges."
+    Example: "The paper compares Android and Windows forensic challenges."
 
 6. **If 'No' to mobile**, clarify the **non-mobile focus**.
-   ✅ Example: "The study examines anti-forensic tools used on Linux servers."
+    Example: "The study examines anti-forensic tools used on Linux servers."
 
 ==============================
-📤 OUTPUT FORMAT (JSON)
+  OUTPUT FORMAT (JSON)
 ==============================
 {{
   "main_topic": "Concise summary of what the paper is about.",
@@ -125,7 +125,7 @@ Summarize the primary subject of the paper and answer Boolean-style questions ab
 }}
 
 ==============================
-📘 PAPER CONTENT
+  PAPER CONTENT
 ==============================
 <Start of Paper Content>
 {content}
@@ -138,17 +138,17 @@ Your response:
       return f"""
 You are tasked with identifying all platforms and digital devices explicitly discussed in the academic paper titled:
 
-📄 "{title}"
+  "{title}"
 
 ==============================
-🎯 OBJECTIVE
+  OBJECTIVE
 ==============================
 1. Extract the list of all operating system platforms discussed.
 2. Extract the list of all digital device types discussed.
 3. Identify which of the mentioned devices qualify as **mobile devices** based on the study’s definition.
 
 ==============================
-📌 DEFINITION: MOBILE DEVICES
+  DEFINITION: MOBILE DEVICES
 ==============================
 For this task, **mobile devices** are defined as:
 - Portable, network-capable, small-scale digital devices.
@@ -156,7 +156,7 @@ For this task, **mobile devices** are defined as:
 - ❗ Do **not** include Laptops, Desktops, External Hard Drives, Cloud instances, or Virtual Machines unless they are explicitly discussed in a mobile or portable context.
 
 ==============================
-📌 INSTRUCTIONS
+  INSTRUCTIONS
 ==============================
 1. **Platforms Discussed**:
    - Extract all mentioned platforms (e.g., Android, iOS, Windows, Linux, macOS, Multi-platform, Other).
@@ -170,7 +170,7 @@ For this task, **mobile devices** are defined as:
    - If unclear, leave it out of the mobile list.
 
 ==============================
-📤 OUTPUT FORMAT (JSON)
+  OUTPUT FORMAT (JSON)
 ==============================
 Return the output in this structure:
 
@@ -181,7 +181,7 @@ Return the output in this structure:
 }}
 
 ==============================
-📘 PAPER CONTENT
+  PAPER CONTENT
 ==============================
 <Start of Paper Content>
 {content}
@@ -194,12 +194,12 @@ Your response:
         return f"""
 You are a digital forensics expert analyzing the academic paper titled:
 
-📄 "{title}"
+  "{title}"
 
 Your task is to extract and categorize all **explicitly mentioned anti-forensic techniques and tools** using the extended taxonomy proposed by **Conlan et al. (2016)**.
 
 ==============================
-🎯 OBJECTIVE
+  OBJECTIVE
 ==============================
 1. Identify all anti-forensic techniques or activities mentioned.
 2. Classify each technique using the Conlan et al. taxonomy.
@@ -207,7 +207,7 @@ Your task is to extract and categorize all **explicitly mentioned anti-forensic 
 4. If the paper defines a new category not in Conlan's taxonomy, extract and report it.
 
 ==============================
-📌 TAXONOMY REFERENCE
+  TAXONOMY REFERENCE
 ==============================
 Use the following categories from Conlan et al. (2016):
 
@@ -217,32 +217,32 @@ Use the following categories from Conlan et al. (2016):
 - **Attacks Against Forensic Tools and Processes**
 - **Possible Indications of Anti-Forensic Activity**
 
-⚠️ If a technique does **not fit any category**, do one of the following:
+  If a technique does **not fit any category**, do one of the following:
 - If the paper introduces a **new category**, label it as:
   `"New Category: [Category Name] (Short explanation)"`
 - If no new category is defined but it still doesn't fit, label it:
   `"Other (Brief reason why it doesn’t match existing taxonomy)"`
 
 ==============================
-📌 EXAMPLES
+  EXAMPLES
 ==============================
-🔒 **Data Hiding**:  
+  **Data Hiding**:  
 - Disk encryption, email encryption, VPN tunneling, text steganography, filesystem manipulation
 
-🧹 **Artifact Wiping**:  
+  **Artifact Wiping**:  
 - Secure deletion, metadata wiping, registry cleaning, disk degaussing
 
-🎭 **Trail Obfuscation**:  
+  **Trail Obfuscation**:  
 - Proxy servers, P2P networking, log cleaners, spoofing, data fabrication
 
-💣 **Attacks Against Tools**:  
+  **Attacks Against Tools**:  
 - Program packers, anti-reverse engineering, DoS on forensic software
 
-⚠️ **Possible Indications**:  
+  **Possible Indications**:  
 - Presence of anti-forensics apps, encrypted virtual machines
 
 ==============================
-📌 INSTRUCTIONS
+  INSTRUCTIONS
 ==============================
 1. Only include techniques or tools that are **explicitly** discussed in the paper.
 2. For each technique:
@@ -252,7 +252,7 @@ Use the following categories from Conlan et al. (2016):
 3. Clearly list all named anti-forensics tools or apps.
 
 ==============================
-📤 OUTPUT FORMAT (JSON)
+  OUTPUT FORMAT (JSON)
 ==============================
 Return the output in the following structured format:
 
@@ -274,7 +274,7 @@ Return the output in the following structured format:
 }}
 
 ==============================
-📘 PAPER CONTENT
+  PAPER CONTENT
 ==============================
 <Start of Paper Content>
 {content}
@@ -286,12 +286,12 @@ Your response:
         return f"""
 You are a digital forensics analyst examining the paper titled:
 
-📄 "{title}"
+  "{title}"
 
 Your goal is to identify and categorize **forensic artifacts left behind by anti-forensic tools** on mobile platforms.
 
 ==============================
-🎯 OBJECTIVE
+  OBJECTIVE
 ==============================
 1. Determine if the paper explicitly discusses any forensic artifacts.
 2. Extract all types of artifacts left behind as a result of anti-forensic activity.
@@ -299,13 +299,13 @@ Your goal is to identify and categorize **forensic artifacts left behind by anti
 4. Categorize the artifacts based on well-supported forensic dimensions.
 
 ==============================
-📘 DEFINITION: FORENSIC ARTIFACTS
+  DEFINITION: FORENSIC ARTIFACTS
 ==============================
 Forensic artifacts are residual data or metadata unintentionally left behind on a system, especially after anti-forensic tools have attempted to hide or erase them.
 
 They may serve as indicators of past user activity or anti-forensic operations, and are valuable during forensic recovery.
 
-✅ Examples of forensic artifacts:
+  Examples of forensic artifacts:
 - Deleted documents still visible in app caches
 - Log entries showing past app use or system events
 - Media previews stored in thumbnails
@@ -313,7 +313,7 @@ They may serve as indicators of past user activity or anti-forensic operations, 
 - Temp files, crash logs, or remnants in unallocated space
 
 ==============================
-📌 CATEGORIZATION DIMENSIONS
+  CATEGORIZATION DIMENSIONS
 ==============================
 If artifacts are found, categorize them under one or more of the following axes:
 
@@ -340,7 +340,7 @@ If artifacts are found, categorize them under one or more of the following axes:
    - File System Layer
 
 ==============================
-📌 INSTRUCTIONS
+  INSTRUCTIONS
 ==============================
 1. Return **"Yes"** if forensic artifacts are discussed.
 2. List the **types of artifacts** left behind.
@@ -353,7 +353,7 @@ Only include artifacts that are:
 - Relevant to forensic recovery.
 
 ==============================
-📤 OUTPUT FORMAT (JSON)
+  OUTPUT FORMAT (JSON)
 ==============================
 Return your response in the following structured format:
 
@@ -385,15 +385,15 @@ Your response:
         return f"""
 You are a digital forensics analyst evaluating whether the academic paper below proposes or discusses a **taxonomy or classification framework** related to anti-forensics.
 
-📄 Title of Paper: "{title}"
+  Title of Paper: "{title}"
 
 ==============================
-🎯 OBJECTIVE
+  OBJECTIVE
 ==============================
 Your task is to extract details about any **classification system, taxonomy, or organizational framework** mentioned in the paper that relates to anti-forensics.
 
 ==============================
-📌 DEFINITIONS
+  DEFINITIONS
 ==============================
 A **taxonomy** or **classification framework** is a systematic structure that categorizes techniques, tools, or concepts based on shared characteristics.
 
@@ -403,7 +403,7 @@ It may include:
 - Visual models, tables, or conceptual groupings
 
 ==============================
-📌 INSTRUCTIONS
+  INSTRUCTIONS
 ==============================
 1. Determine whether the paper **explicitly** proposes or discusses a classification system or taxonomy.
 2. If **yes**:
@@ -411,7 +411,7 @@ It may include:
    - Indicate whether it is specific to **mobile anti-forensics**, **general anti-forensics**, or **both**.
 
 ==============================
-📤 OUTPUT FORMAT (JSON)
+  OUTPUT FORMAT (JSON)
 ==============================
 Return the response using the format below:
 
@@ -426,13 +426,13 @@ Return the response using the format below:
   "taxonomy_scope": "Mobile-specific / General / Both"
 }}
 
-📌 If no taxonomy is discussed, set:
+  If no taxonomy is discussed, set:
 - `"taxonomy_discussed": "No"`
 - `"taxonomy_summary": []`
 - `"taxonomy_scope": "N/A"`
 
 ==============================
-📘 PAPER CONTENT
+  PAPER CONTENT
 ==============================
 <Start of Paper Content>
 {content}
@@ -445,19 +445,19 @@ Your response:
         return f"""
 You are analyzing the academic paper titled:
 
-📄 "{title}"
+  "{title}"
 
 Your task is to determine **how the study was evaluated**, and classify the evaluation method using one of the predefined categories below.
 
 ==============================
-🎯 OBJECTIVE
+  OBJECTIVE
 ==============================
 1. Identify the **evaluation method** used in the study.
 2. Choose from the list of valid categories.
 3. If multiple methods are used, include all that apply.
 
 ==============================
-📌 EVALUATION CATEGORIES
+  EVALUATION CATEGORIES
 ==============================
 Select from the following:
 
@@ -475,14 +475,14 @@ Select from the following:
   Evaluation is centered on testing, analyzing, or reviewing a forensic or anti-forensic tool (either developed by the authors or third-party).
 
 ==============================
-📌 INSTRUCTIONS
+  INSTRUCTIONS
 ==============================
 1. Identify the evaluation method(s) **explicitly stated** in the paper.
 2. If the paper uses more than one method, list all applicable categories.
 3. Base your judgment strictly on what the paper reports — do not infer.
 
 ==============================
-📤 OUTPUT FORMAT (JSON)
+  OUTPUT FORMAT (JSON)
 ==============================
 Return your response in the following format:
 
@@ -502,7 +502,7 @@ Return your response in the following format:
 }}
 
 ==============================
-📘 PAPER CONTENT
+  PAPER CONTENT
 ==============================
 <Start of Paper Content>
 {content}
@@ -515,17 +515,17 @@ Your response:
         return f"""
 You are reviewing the paper titled:
 
-📄 "{title}"
+  "{title}"
 
 Your task is to determine the **main contribution type(s)** of this study. These contributions must be **explicitly discussed** by the authors.
 
 ==============================
-🎯 OBJECTIVE
+  OBJECTIVE
 ==============================
 Identify the kind of contribution the paper makes to the field of digital forensics or anti-forensics, especially within the mobile domain.
 
 ==============================
-📌 CONTRIBUTION TYPES
+  CONTRIBUTION TYPES
 ==============================
 Choose one or more of the following based on the paper's content:
 
@@ -548,14 +548,14 @@ Choose one or more of the following based on the paper's content:
   A literature review, systematic mapping, or broad overview of the field.
 
 ==============================
-📌 INSTRUCTIONS
+  INSTRUCTIONS
 ==============================
 1. Identify all contribution types **explicitly claimed or demonstrated** in the paper.
 2. Base your decision strictly on what the paper provides (do not infer intentions).
 3. If multiple contributions are made, list all.
 
 ==============================
-📤 OUTPUT FORMAT (JSON)
+  OUTPUT FORMAT (JSON)
 ==============================
 Return your response in the following format:
 
@@ -566,7 +566,7 @@ Return your response in the following format:
   ]
 }}
 
-📌 If no clear contribution is identified, return:
+  If no clear contribution is identified, return:
 
 {{
   "contribution_types": [
@@ -575,7 +575,7 @@ Return your response in the following format:
 }}
 
 ==============================
-📘 PAPER CONTENT
+  PAPER CONTENT
 ==============================
 <Start of Paper Content>
 {content}
@@ -583,16 +583,6 @@ Return your response in the following format:
 
 Your response:
 """
-
-
-
-
-
-
-
-
-    
-      
 
     else:
         raise ValueError("Invalid task")

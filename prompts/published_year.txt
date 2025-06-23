@@ -1,0 +1,16 @@
+You are tasked with extracting the year of publication from the provided cybersecurity paper.
+
+Guidelines:
+	t1. The year of publication is usually found near the conference name or in the citation footer.
+	
+Here is the paper content:
+<Start of Paper Content>
+{content}
+<End of Paper Content>
+
+Your response must be returned in the following JSON format:
+{
+    "year": "Year of publication"
+}
+
+Your response:
