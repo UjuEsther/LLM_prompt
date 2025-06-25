@@ -1,51 +1,60 @@
-You are tasked with analyzing the focus and relevance of the digital forensic paper titled.
+You are tasked with analyzing the focus and relevance of the digital forensic paper.
+
+TASK OVERVIEW:
+Determine the paper's main topic, assess its relevance to anti-forensics, identify whether it's a general or platform-specific study, and evaluate its focus on mobile platforms.
+
+
+DEFINITIONS:
+	t1. **Definition of Anti-Forensics**:
+	    - Anti-forensics refers to any intentional technique, behavior, or tool used to interfere with or obstruct digital forensic investigations.
+	    - Example: secure deletion, data hiding, log manipulation, encrypted containers, tool evasion, and alteration of forensic traces.
+
+	t2. **Definition of Mobile Platforms**:
+	    - Mobile platforms refer to operating systems or software environments that run on portable, wireless digital devices.
+	    - Example: Android, iOS, embedded systems for smartphones, Symbian Os, HarmonyOS, windows phone Os, blackberry Os.
+	    - Exclude: laptops, desktops, cloud platforms, or virtual machines unless they are explicitly framed in a mobile context.
+
+	t3. **Definition of mobile-focus**:
+	    - **Mobile Focus**: Papers that specifically investigate mobile platforms/devices as their primary subject
+        - "Yes": The paper is specifically about mobile devices/platforms (smartphones, tablets, wearables)
+        - "Partially": Mobile is mentioned but not the main focus (e.g., comparison studies, multi-platform tools)
+        - "No": The paper does not focus on mobile platforms/devices
+
+    t4. **General vs. Platform-Specific**:
+        - General: Study applies to multiple platforms or doesn't specify a particular system
+        - Platform-specific: Study focuses on one particular OS or environment
 
 Guidelines:
 **STRICTLY FOLLOW ALL GUIDELINES**
 
-	t1. **Definition of Anti-Forensics**:
-	    - Anti-forensics refers to any intentional technique, behavior, or tool used to interfere with or obstruct digital forensic investigations.
-	    - This includes, but is not limited to, secure deletion, data hiding, log manipulation, encrypted containers, tool evasion, and alteration of forensic traces.
-
-	t2. **Definition of Mobile Platforms**:
-	    - Mobile platforms refer to operating systems or software environments that run on portable, wireless digital devices.
-	    - These include Android, iOS, embedded systems for smartphones, Symbian O, HarmonyOS.
-	    - Do not include laptops, desktops, cloud platforms, or virtual machines unless they are explicitly framed in a mobile context.
-
-	t3. **Identify the Paper's Main Topic**:
-	    - Provide a clear and concise summary (1-2 sentences) of the central subject of the paper.
-	    - Focus on the main problem, objective, or method described.
-	    - Use academic phrasing. Do not copy or quote lines from the paper.
-
-    Example:
-    The paper investigates anti-forensic techniques on Android devices, specifically targeting secure deletion and log manipulation.
+    t5. **Main Topic**: Provide a 1-2 sentence academic summary of the paper's central focus
+        Example:
+        The paper investigates anti-forensic techniques on Android devices, specifically targeting secure deletion and log manipulation.
 
 
-	t4. **Determine Anti-Forensics Relevance**:
+	t6. **Determine Anti-Forensics Relevance**:
 	    - Return "Yes" if anti-forensics is a core topic explored throughout the paper.
 	    - Return "No" if anti-forensics is mentioned only briefly, or not at all.
 
-	t5. **Check for Platform Generality**:
+	t7. **Check for Platform Generality**:
 	    - Return "Yes" if the study discusses anti-forensics in a general (i.e., not tied to any specific system).
 	    - Return "No" if the study is focused on a particular platform, OS, or environment (e.g., Android-only, Linux-only, etc.).
 
-	t6. **Identify Mobile Platform Discussion**:
+	t8. **Identify Mobile focus Discussion**:
 	    - Return "Yes" if mobile devices or platforms are a primary focus of the paper.
 	    - Return "Partially" if mobile is only mentioned briefly or used as a point of comparison.
-	    - Return "No" if the paper has no focus on mobile platforms.
+	    - Return "No" if the paper has no focus on mobile platforms/devices.
 
-	t7. **Explain Partial or Non-Mobile Relevance**:
-	    - If your answer in t6 is "Partially", briefly explain how mobile is mentioned.
+	t9. **Explain Partial or Non-Mobile Relevance**:
+	    - If your answer in t8 is "Partially", briefly explain how mobile is mentioned.
 	    Example: "The paper compares Android to desktop anti-forensic tools."
-	    - If your answer in t6 is "No", state the system or environment the paper focuses on instead.
+	    - If your answer in t8 is "No", state the system or environment the paper focuses on instead.
 	    Example: "The study focuses on anti-forensics in cloud-based Linux environments."
 
-    t8. Do not guess or assume any information. All responses must be based strictly on what is explicitly stated in the paper content.
+    t10. Do not guess or assume any information. All responses must be based strictly on what is explicitly stated in the paper content.
 
 
-Output Format:
-
-Your response must be a valid JSON structure in the following format:
+OUTPUT FORMAT:
 
 {
     "main_topic": "Concise summary of what the paper is about.",
@@ -56,7 +65,75 @@ Your response must be a valid JSON structure in the following format:
     "non_mobile_area_if_not_mobile": "If not mobile, describe the focus area; else leave blank."
 }
 
-Do not include any additional explanations or commentary. Return only the structured JSON output.
+EXAMPLES:
+
+Example 1:
+Input:
+ "This paper presents a comprehensive analysis of anti-forensic capabilities in Android malware. We examined 1,000 malicious applications from 2020-2023, identifying techniques used to evade detection and hide evidence on Android devices. Our findings reveal that 67% of samples employ data encryption, 45% use log manipulation, and 23% implement anti-debugging mechanisms specifically targeting mobile forensic tools like Cellebrite UFED and Oxygen Forensic Suite."
+
+Output:
+{
+    "main_topic": "The paper analyzes anti-forensic techniques employed by Android malware to evade detection and hide evidence on mobile devices.",
+    "explicitly_about_anti_forensics": "Yes",
+    "general_anti_forensics_study": "No",
+    "explicitly_about_mobile": "Yes",
+    "mobile_context_if_partial": "",
+    "non_mobile_area_if_not_mobile": ""
+}
+
+Example 2:
+Input: "We present a novel framework for detecting timestamp manipulation across multiple operating systems. Our approach was tested on Windows 10, Ubuntu Linux, macOS, Android 11, and iOS 14. While the core algorithm remains platform-agnostic, we provide specific implementation details for each OS. Results show 95% detection accuracy on desktop systems and 89% on mobile platforms, with Android showing slightly better performance than iOS due to file system differences."
+
+Output:
+{
+    "main_topic": "The paper presents a cross-platform framework for detecting timestamp manipulation in digital forensic investigations.",
+    "explicitly_about_anti_forensics": "Yes",
+    "general_anti_forensics_study": "Yes",
+    "explicitly_about_mobile": "Partially",
+    "mobile_context_if_partial": "Mobile platforms (Android and iOS) are included as part of a multi-platform study but are not the primary focus.",
+    "non_mobile_area_if_not_mobile": ""
+}
+
+Example 3:
+Input: "This research investigates secure deletion techniques in cloud storage environments, focusing on AWS S3, Azure Blob Storage, and Google Cloud Storage. We demonstrate how traditional anti-forensic methods fail in distributed systems due to data replication and versioning. Our experiments reveal that even after deletion requests, data fragments persist across multiple availability zones for up to 90 days, making complete data destruction virtually impossible in modern cloud architectures."
+
+Output:
+{
+    "main_topic": "The paper investigates the effectiveness of secure deletion techniques in cloud storage environments and their implications for digital forensics.",
+    "explicitly_about_anti_forensics": "Yes",
+    "general_anti_forensics_study": "No",
+    "explicitly_about_mobile": "No",
+    "mobile_context_if_partial": "",
+    "non_mobile_area_if_not_mobile": "The study focuses on cloud storage platforms (AWS S3, Azure, Google Cloud) and distributed systems."
+}
+
+Example 4:
+Input: "We present WhatsApp message recovery techniques for iOS devices. Our methodology extracts deleted conversations from iPhone backups, including messages thought to be permanently deleted. The paper details the SQLite database structure used by WhatsApp on iOS 14 and demonstrates recovery procedures using both logical and physical extraction methods. We achieved 78% recovery rate for messages deleted within 30 days."
+
+Output:
+{
+    "main_topic": "The paper presents techniques for recovering deleted WhatsApp messages from iOS devices through backup analysis and database extraction.",
+    "explicitly_about_anti_forensics": "No",
+    "general_anti_forensics_study": "No",
+    "explicitly_about_mobile": "Yes",
+    "mobile_context_if_partial": "",
+    "non_mobile_area_if_not_mobile": ""
+}
+
+Example 7:
+Input: "This paper introduces a machine learning approach for detecting manipulated JPEG images in digital investigations. We trained a CNN model on 50,000 images to identify traces of photo editing software. The model achieves 94% accuracy in detecting Adobe Photoshop modifications and 91% for GIMP edits. While our dataset includes images from various sources including smartphones, the detection algorithm is device-agnostic and focuses solely on image manipulation artifacts."
+
+Output:
+{
+    "main_topic": "The paper presents a machine learning approach using CNN to detect manipulated JPEG images in digital forensic investigations.",
+    "explicitly_about_anti_forensics": "No",
+    "general_anti_forensics_study": "No",
+    "explicitly_about_mobile": "No",
+    "mobile_context_if_partial": "",
+    "non_mobile_area_if_not_mobile": "The study focuses on image forensics and manipulation detection regardless of source device."
+}
+
+ACTUAL QUERY:
 
 Here is the paper content:
 <Start of Paper Content>

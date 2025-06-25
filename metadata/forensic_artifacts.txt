@@ -1,0 +1,114 @@
+You are tasked with identifying and categorizing forensic artifacts left behind by anti-forensic techniques, as explicitly discussed in the provided digital forensic paper.
+
+Guidelines:
+**STRICTLY FOLLOW ALL GUIDELINES**
+
+t1. Definition of Forensic Artifacts:
+    - Forensic artifacts are residual data, files, or metadata unintentionally left behind after the use of anti-forensic techniques.
+    - These may include recovered files, logs, configurations, cached data, or other indicators that show tampering, wiping, or concealment attempts have failed.
+
+t2. Scope Limitation:
+    - Only extract artifacts that result from **anti-forensic activity**.
+    - Artifacts may originate from any digital environment, including:
+        - **Mobile devices** (e.g., smartphones, tablets, wearables, smartwatches, mobile IoT)
+        - **Non-mobile systems** (e.g., desktops, servers, cloud platforms)
+    - If no mobile artifacts are found, still report any valid artifacts that results from anti- forensic  activity and identify the device type involved.
+
+t3. Identify and list all valid forensic artifacts explicitly discussed in the paper.
+    - Focus only on artifacts that remain **after anti-forensics was applied**.
+    - Do not guess or assume; rely strictly on the content of the paper.
+    - Examples of valid artifacts:
+        - msgstore.db, chat logs remaining after deletion
+        - gesture.key or password.key surviving lock bypass
+        - Unwiped DCIM/ folders or thumbnail caches
+        - consolidated.db or cache.cell location history
+        - ntuser.dat, registry remnants, log traces on desktops
+
+t4. Categorize each artifact using the following dimensions:
+
+- **Application and User Data Artifacts**:
+  - App-level content and user-generated data (e.g., SQLite logs, app configs, credentials).
+
+- **System Artifacts**:
+  - Operating system or platform configuration traces (e.g., packages.xml, usage logs, registry entries, .plist files).
+
+- **Security and Authentication Artifacts**:
+  - Credentials and access control traces (e.g., lock patterns, password hashes, biometric keys, PIN bypass artifacts).
+
+- **Network and Location Artifacts**:
+  - Connectivity and geolocation traces (e.g., GPS logs, Wi-Fi MAC history, sync records).
+
+- **Multimedia Artifacts**:
+  - Residual or undeleted media (e.g., images, videos, thumbnails, cached media previews).
+
+t4a. If a forensic artifact does not clearly fall into any of the five predefined categories above, still include it in the response.
+    - Add it under the label: "Uncategorized Artifacts" in the output.
+    - This ensures that important but uncommon or newly observed artifact types are retained in the results.
+    - Only assign artifacts here if they are clearly mentioned and anti-forensics related, but do not logically match any of the defined categories.
+
+
+t5. Confirm whether anti-forensics is involved:
+    - Return "Yes" only if the artifact(s) are directly tied to anti-forensic methods, failures, or bypasses.
+    - Return "No" if the paper does not connect artifacts to anti-forensic techniques.
+
+t6. Confirm whether the artifacts come from a **mobile device**:
+    - Return "Yes" if the artifacts are from Android, iOS, smartphones, tablets, smartchwatch, wearables, PDAs e.t.c.
+    - Return "No" if the source is desktop, server, or cloud.
+    - Return "Unclear" if the paper does not specify the device type.
+
+t7. Identify the specific **device type** from which artifacts were recovered:
+- Choose from: Smartphone, Tablet, Smartwatch, Wearable, Mobile IoT, Desktop, Server, Cloud Platform, Unknown.
+
+t8. Do not guess, generalize, or infer any artifact details. Only extract what is explicitly mentioned in the paper.
+
+
+Output Format:
+
+Your response must be a valid JSON structure in the following format:
+
+{
+  "artifacts_discussed": "Yes / No",
+  "anti_forensics_involved": "Yes / No",
+  "mobile_artifacts": "Yes / No / Unclear",
+  "device_type": "Smartphone / Smartwatch / Tablet / Wearable / Mobile IoT / Desktop / Server / Cloud Platform / Unknown",
+  "artifact_types": [
+    "msgstore.db",
+    "unwiped WhatsApp image folder",
+    "consolidated.db",
+    "gesture.key",
+    "ntuser.dat"
+  ],
+  "artifact_categories": {
+    "Application and User Data Artifacts": ["msgstore.db", "shared_prefs"],
+    "System Artifacts": ["packages.xml", "ntuser.dat"],
+    "Security and Authentication Artifacts": ["gesture.key", "password.key"],
+    "Network and Location Artifacts": ["consolidated.db", "cache.cell"],
+    "Multimedia Artifacts": ["thumbnail previews", "unwiped DCIM photos"]
+  }
+}
+
+If no relevant artifacts are found or they are not tied to anti-forensics, return:
+
+{
+  "artifacts_discussed": "No",
+  "anti_forensics_involved": "No",
+  "mobile_artifacts": "Unclear",
+  "device_type": "Unknown",
+  "artifact_types": [],
+  "artifact_categories": {
+    "Application and User Data Artifacts": [],
+    "System Artifacts": [],
+    "Security and Authentication Artifacts": [],
+    "Network and Location Artifacts": [],
+    "Multimedia Artifacts": []
+  }
+}
+
+Do not include any explanations, commentary, or summary. Return only the structured JSON output.
+
+Here is the paper content:
+<Start of Paper Content>
+{content}
+<End of Paper Content>
+
+Your response:

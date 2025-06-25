@@ -1,0 +1,97 @@
+You are tasked with extracting and categorizing all anti-forensic techniques and tools explicitly discussed in the provided digital forensic paper.
+
+Guidelines:
+**STRICTLY FOLLOW ALL GUIDELINES**
+
+t1. Definition of Anti-Forensics:
+    - Anti-forensics refers to any method, action, or tool that is intentionally used to obscure, manipulate, destroy, or prevent access to digital evidence during forensic analysis.
+
+t2. Use the Conlan et al. (2016) taxonomy to classify each anti-forensic technique. The categories are:
+
+    - **Data Hiding**: Techniques that conceal the existence of data or evidence. 
+        Examples: encryption, steganography, tunneling and so on.
+
+    - **Artifact Wiping**: Techniques that deliberately remove traces or residual data from a system. 
+        Examples: secure deletion, wiping logs, and registry cleaners.
+
+    - **Trail Obfuscation**: Techniques that manipulate or falsify traces to confuse forensic analysis. 
+        Examples: spoofing, timestamp manipulation, and synthetic log generation.
+
+    - **Attacks Against Forensic Tools and Processes**: Methods that directly target forensic software or analysis workflows to evade or disrupt detection. 
+        Examples: crashing forensic tools, disabling monitoring agents, or anti-debugging methods.
+
+    - **Possible Indications of Anti-Forensic Activity**: Observable signs that suggest anti-forensics is in use, even if the specific technique is unknown. 
+        Examples: the presence of encrypted virtual machines, unrecognized file structures, or anti-forensics apps.
+
+t3. Make sure to include only techniques that are explicitly described in the paper.
+    - Do not infer a technique if it is only referenced or assumed.
+
+t4. If a technique does not match any of the five Conlan categories:
+    - Check if the paper defines a new category. If so, label it as:
+        "New Category: [Category Name] (Short explanation)"
+    - If no new category is defined but the technique is still valid, label it as:
+        "Other (Brief reason why it doesn’t match existing taxonomy)"
+
+t5. Identify all named anti-forensics tools, software, or apps explicitly mentioned in the paper.
+    - Only include tools if they are clearly linked to anti-forensic functions.
+
+t6. For each technique, determine whether the paper explicitly states that it was developed or used specifically for mobile devices.
+    - Mark it as "Yes" if the paper clearly states the method is designed for smartphones, Android, iOS, tablets, smartwatches, or similar.
+    - Mark it as "No" if the paper presents it as a general anti-forensics technique without reference to mobile use.
+    - Mark it as "Unclear" if the paper does not mention the intended platform at all.
+
+Do not infer. Only mark "Yes" if the mobile context is explicitly stated in the paper.
+
+
+t7. Real Example:
+    If the paper mentions:
+        - “Secure deletion” → classify it as: Artifact Wiping
+        - “VPN tunneling” → classify it as: Data Hiding
+        - “Program packers” → classify it as: Attacks Against Forensic Tools and Processes
+        - “StegHide” → include under tools
+
+Example JSON output:
+{
+  "techniques_mentioned": [
+    "Secure deletion",
+    "Text steganography",
+    "Data poisoning"
+  ],
+  "technique_categories": {
+    "Secure deletion": "Artifact Wiping",
+    "Text steganography": "Data Hiding",
+    "Data poisoning": "New Category: Training Data Manipulation (The paper defines this as injecting adversarial data into ML training sets to prevent forensic detection)"
+  },
+  "tools_mentioned": [
+    "Eraser",
+    "StegHide"
+  ]
+}
+
+t7. Do not guess or assume the presence of techniques or tools. Only include entries that are directly and clearly stated in the paper.
+
+Output Format:
+
+Your response must be a valid JSON structure in the following format:
+
+{
+  "techniques_mentioned": ["List of anti-forensic techniques"],
+  "technique_categories": {
+    "Technique 1": "Category",
+    "Technique 2": "Category or New Category: [Name] (Explanation)"
+  },
+  "tools_mentioned": ["List of tools"]
+  "mobile_specificity": {
+  "Technique": "Yes / No / Unclear"
+}
+
+}
+
+Do not include any explanations or commentary. Return only the structured JSON output.
+
+Here is the paper content:
+<Start of Paper Content>
+{content}
+<End of Paper Content>
+
+Your response:

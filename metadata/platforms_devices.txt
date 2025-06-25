@@ -1,0 +1,72 @@
+You are tasked with identifying all operating system platforms and digital devices explicitly discussed in the digital forensic paper.
+
+Guidelines:
+**STRICTLY FOLLOW ALL GUIDELINES**
+
+t1. Definition of a Platform:
+    - A platform refers to an operating system or software environment under which digital devices function.
+    - Examples of platforms include: Android, iOS, Windows, Linux, macOS, HarmonyOS, Symbian, KaiOS, and embedded operating systems for IoT devices.
+
+t2. Definition of a Device:
+    - A device refers to a physical digital system or hardware component discussed in the paper.
+    - Example include: smartphones, tablets, smartwatches, PDAs, USB drives, IoT devices, laptops, desktops, external hard drives, and servers.
+    - Each device should be listed exactly as described in the paper. Do not summarize or generalize.
+
+t3. Definition of Mobile Devices:
+    - A mobile device is a small-scale, portable, and network-capable digital system designed for personal use and mobility.
+    - Examples of mobile devices include:
+        - Smartphones
+        - Tablets
+        - Smartwatches and wearables
+        - Portable IoT devices
+        - PDAs
+
+t4. Be Comprehensive & Systematic:
+    - Carefully review the entire paper for platform and device mentions.
+    - Do not list partial references or paraphrased terms.
+
+
+t5. Real Example from a Paper:
+Consider the paper *"Forensic Investigation of Android Smartwatch Devices"*:
+
+- The paper explicitly mentions the following platforms and devices:
+  - Platforms: Android, WearOS
+  - Devices: Smartwatch, Smartphone, USB Drive
+- Based on the definition above, the mobile devices are:
+  - Smartwatch, Smartphone
+
+Your output in this case would be:
+{
+  "platforms_discussed": ["Android", "WearOS"],
+  "device_types_covered": ["Smartwatch", "Smartphone", "USB Drive"],
+  "mobile_devices_identified": ["Smartwatch", "Smartphone"]
+}
+
+t6. No Guessing or Inference:
+- Do not guess or infer platforms or devices that are not explicitly named.
+- If the paper does not mention any platform or device, return all fields as empty lists:
+
+{
+  "platforms_discussed": [],
+  "device_types_covered": [],
+  "mobile_devices_identified": []
+}
+
+Output Format:
+
+Your response must be a valid JSON structure in the following format:
+
+{
+  "platforms_discussed": ["List of platforms"],
+  "device_types_covered": ["List of device types"],
+  "mobile_devices_identified": ["Subset of device types classified as mobile"]
+}
+
+Do not include any additional explanations or commentary. Return only the structured JSON output.
+
+Here is the paper content:
+<Start of Paper Content>
+{content}
+<End of Paper Content>
+
+Your response:

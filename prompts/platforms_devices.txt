@@ -1,14 +1,16 @@
 You are tasked with identifying all operating system platforms and digital devices explicitly discussed in the digital forensic paper.
 
-Guidelines:
-**STRICTLY FOLLOW ALL GUIDELINES**
+TASK OVERVIEW:
+Extract and categorize all platforms (operating systems) and devices (hardware) mentioned in the paper. Pay special attention to identifying which devices qualify as mobile devices. Only include platforms and devices that are explicitly named in the paper.
+
+DEFINITIONS:
 
 t1. Definition of a Platform:
-    - A platform refers to an operating system or software environment under which digital devices function.
+    - **platform**: refers to an operating system or software environment under which digital devices function.
     - Examples of platforms include: Android, iOS, Windows, Linux, macOS, HarmonyOS, Symbian, KaiOS, and embedded operating systems for IoT devices.
 
 t2. Definition of a Device:
-    - A device refers to a physical digital system or hardware component discussed in the paper.
+    - **Device** refers to a physical digital system or hardware component discussed in the paper.
     - Example include: smartphones, tablets, smartwatches, PDAs, USB drives, IoT devices, laptops, desktops, external hard drives, and servers.
     - Each device should be listed exactly as described in the paper. Do not summarize or generalize.
 
@@ -21,35 +23,70 @@ t3. Definition of Mobile Devices:
         - Portable IoT devices
         - PDAs
 
-t4. Be Comprehensive & Systematic:
+Guidelines:
+**STRICTLY FOLLOW ALL GUIDELINES**
+
+t4. **Exact Extraction**: List platforms and devices exactly as they appear in the paper
+
+t5. **No Inference**: Do not guess or assume platforms/devices that aren't explicitly mentioned
+
+t6. Be Comprehensive & Systematic:
     - Carefully review the entire paper for platform and device mentions.
     - Do not list partial references or paraphrased terms.
 
+t7. 4. **Mobile Classification**: Only classify devices as mobile if they meet the mobile device definition
 
-t5. Real Example from a Paper:
-Consider the paper *"Forensic Investigation of Android Smartwatch Devices"*:
 
-- The paper explicitly mentions the following platforms and devices:
-  - Platforms: Android, WearOS
-  - Devices: Smartwatch, Smartphone, USB Drive
-- Based on the definition above, the mobile devices are:
-  - Smartwatch, Smartphone
+OUTPUT FORMAT:
 
-Your output in this case would be:
 {
-  "platforms_discussed": ["Android", "WearOS"],
-  "device_types_covered": ["Smartwatch", "Smartphone", "USB Drive"],
-  "mobile_devices_identified": ["Smartwatch", "Smartphone"]
+  "platforms_discussed": ["List of platforms"],
+  "device_types_covered": ["List of device types"],
+  "mobile_devices_identified": ["Subset of device types classified as mobile"]
 }
 
-t6. No Guessing or Inference:
-- Do not guess or infer platforms or devices that are not explicitly named.
-- If the paper does not mention any platform or device, return all fields as empty lists:
+EXAMPLES:
 
+Example 1:
+Input:  
+“This study analyzes WhatsApp’s behavior on Android smartphones by examining the residual data left on devices after uninstallation. Experiments were conducted using a smartphone and a virtual Android emulator.”
+Input: "This study analyzes WhatsApp artifacts on Android smartphones and iOS devices. We conducted experiments using a Samsung Galaxy S21 smartphone, an iPhone 12, and compared results with data extracted from an Android emulator running on Windows 10. The analysis included examining SQLite databases stored on the internal storage of these mobile devices."
+
+Output:
+{
+  "platforms_discussed": ["Android", "iOS", "Windows 10"],
+  "device_types_covered": ["Samsung Galaxy S21 smartphone", "iPhone 12", "Android emulator"],
+  "mobile_devices_identified": ["Samsung Galaxy S21 smartphone", "iPhone 12"]
+}
+
+Example 2:
+Input: "The research focused on extracting deleted data from various storage devices. We analyzed NTFS file systems on Windows servers, ext4 partitions on Linux desktop machines, and APFS volumes on macOS laptops. External hard drives and USB flash drives were also examined for residual data after secure deletion attempts."
+
+Output:
+{
+  "platforms_discussed": ["Windows", "Linux", "macOS"],
+  "device_types_covered": ["servers", "desktop machines", "laptops", "External hard drives", "USB flash drives"],
+  "mobile_devices_identified": []
+}
+
+Example 3:
+Input: "We developed a new forensic methodology for analyzing encrypted communications. The approach uses mathematical models and cryptographic analysis techniques. No specific hardware or software platforms were used in this theoretical framework."
+
+Output:
 {
   "platforms_discussed": [],
   "device_types_covered": [],
   "mobile_devices_identified": []
+}
+
+Example 4:
+Input: "The forensic toolkit was deployed on Ubuntu 20.04 and Kali Linux systems. For mobile device analysis, we used tablets running both Android and iPadOS. The investigation also covered legacy devices including BlackBerry phones running BlackBerry OS 10 and old PDAs with Windows Mobile 6.5. A drone running PX4 autopilot firmware was examined for GPS data extraction."
+
+Output:
+{
+  "platforms_discussed": ["Ubuntu 20.04", "Kali Linux", "Android", "iPadOS", "BlackBerry OS 10", "Windows Mobile 6.5", "PX4 autopilot firmware"],
+  "device_types_covered": ["tablets", "BlackBerry phones", "PDAs", "drone"],
+  "mobile_devices_identified": ["tablets", "BlackBerry phones", "PDAs"]
 }
 
 Output Format:
@@ -62,7 +99,7 @@ Your response must be a valid JSON structure in the following format:
   "mobile_devices_identified": ["Subset of device types classified as mobile"]
 }
 
-Do not include any additional explanations or commentary. Return only the structured JSON output.
+ACTUAL QUERY:
 
 Here is the paper content:
 <Start of Paper Content>

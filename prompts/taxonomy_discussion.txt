@@ -1,0 +1,158 @@
+You are tasked with evaluating whether the provided digital forensic paper explicitly discusses or proposes a taxonomy or classification framework related to anti-forensics.
+
+
+TASK OVERVIEW:
+Identify if the paper presents a structured system for organizing anti-forensic concepts, tools, or techniques. Extract the taxonomy structure if present and determine its scope (mobile-specific, general, or both).
+
+DEFINITIONS:
+
+t1. Definition of Taxonomy or Classification Framework:
+    - A taxonomy is a structured system for organizing concepts, tools, or techniques based on common properties.
+    - In anti-forensics research, this may include grouping of methods (e.g., Data Hiding, Artifact Wiping) or detailed frameworks that define classes, categories, dimensions, or levels of operation.
+
+t2. Valid forms of taxonomy may appear as:
+    - High-level categories (e.g., Data Hiding, aritfact whiping, Trail Obfuscation)
+    - Subcategories (e.g., Encryption, Steganography)
+    - Tables, diagrams, or bullet lists organizing techniques
+    - Diagrams illustrating classification relationships
+
+Guidelines:
+**STRICTLY FOLLOW ALL GUIDELINES**
+
+t3. Identify the scope of the taxonomy:
+    - If the taxonomy is clearly intended for **mobile anti-forensics**, label it as: **Mobile-specific**
+    - If it applies to all systems or does not distinguish between mobile and non-mobile, label it: **General**
+    - If the paper discusses both contexts, label it: **Both**
+    - if No taxonomy is present, label it: **N/A**
+
+t4. If a taxonomy is present:
+    - Extract and list the major categories and subcategories mentioned.
+    - The list can be brief, but must reflect the taxonomy structure shown in the paper.
+
+t6. Do not guess or assume the presence of a taxonomy. Only extract if the classification structure is clearly described in the paper.
+
+OUTPUT FORMAT:
+Your response must be a valid JSON structure in the following format:
+
+{
+  "taxonomy_discussed": "Yes / No",
+  "taxonomy_summary": {
+    "categories": ["List of main categories"],
+    "subcategories": ["List of subcategories if explicitly provided"]
+  },
+  "taxonomy_scope": "Mobile-specific / General / Both / N/A"
+}
+
+EXAMPLES:
+
+Example 1:  
+input:
+"We propose a comprehensive taxonomy of anti-forensic techniques organized into five primary categories: (1) Data Hiding - including encryption, steganography, and data camouflage; (2) Artifact Wiping - covering secure deletion, log cleaning, and registry modification; (3) Trail Obfuscation - encompassing timestamp manipulation, log spoofing, and false flag operations; (4) Attacks Against Forensic Tools - including tool detection, exploitation, and misdirection; and (5) Indicators of Anti-Forensic Activity - observable signs of concealment attempts. This framework applies to all digital systems including desktop, server, and mobile platforms."
+
+Expected JSON output:
+
+{
+  "taxonomy_discussed": "Yes",
+  "taxonomy_summary": {
+    "categories": [
+      "Data Hiding",
+      "Artifact Wiping",
+      "Trail Obfuscation",
+      "Attacks Against Forensic Tools",
+      "Indicators of Anti-Forensic Activity"
+    ],
+    "subcategories": [
+      "encryption",
+      "steganography",
+      "data camouflage",
+      "secure deletion",
+      "log cleaning",
+      "registry modification",
+      "timestamp manipulation",
+      "log spoofing",
+      "false flag operations",
+      "tool detection",
+      "exploitation",
+      "misdirection"
+    ]
+  },
+  "taxonomy_scope": "General"
+}
+
+Example 2:
+Input: "Building on Rogers' original work, we extend the anti-forensics taxonomy to include modern cloud and IoT considerations. The enhanced framework maintains the four original categories (Data Hiding, Artifact Destruction, Trail Obfuscation, and Attacks Against Computer Forensics) while adding two new dimensions: Cloud Anti-Forensics (distributed evidence destruction, jurisdiction hopping) and IoT Anti-Forensics (firmware manipulation, sensor data falsification). Table 2 illustrates this expanded taxonomy with examples for both traditional systems and mobile devices."
+
+Output:
+{
+  "taxonomy_discussed": "Yes",
+  "taxonomy_summary": {
+    "categories": [
+      "Data Hiding",
+      "Artifact Destruction",
+      "Trail Obfuscation",
+      "Attacks Against Computer Forensics",
+      "Cloud Anti-Forensics",
+      "IoT Anti-Forensics"
+    ],
+    "subcategories": [
+      "distributed evidence destruction",
+      "jurisdiction hopping",
+      "firmware manipulation",
+      "sensor data falsification"
+    ]
+  },
+  "taxonomy_scope": "Both"
+}
+
+
+Example 3:
+Input: "Our research examined various anti-forensic tools including CCleaner, DBAN, and BleachBit for data wiping, along with VeraCrypt and TrueCrypt for encryption. We also tested timestomp for temporal manipulation and various rootkit technologies. The effectiveness of each tool was measured against standard forensic analysis procedures. Results showed varying degrees of success depending on the forensic tools used for recovery."
+
+Output:
+{
+  "taxonomy_discussed": "No",
+  "taxonomy_summary": {
+    "categories": [],
+    "subcategories": []
+  },
+  "taxonomy_scope": "N/A"
+}
+
+Example 5:
+Input: "Figure 3 presents our hierarchical classification of mobile anti-forensic techniques organized by attack vector. At the top level, we identify Physical (device destruction, chip damage), Logical (data encryption, app-level hiding), and Network (traffic obfuscation, remote wiping) categories. Each category branches into specific techniques: Physical includes thermal damage and electromagnetic interference; Logical encompasses SQLite manipulation and keychain corruption; Network covers VPN tunneling and proxy chains. This mobile-centric taxonomy was validated through analysis of 50 real-world cases."
+
+Output:
+{
+  "taxonomy_discussed": "Yes",
+  "taxonomy_summary": {
+    "categories": [
+      "Physical",
+      "Logical",
+      "Network"
+    ],
+    "subcategories": [
+      "device destruction",
+      "chip damage",
+      "data encryption",
+      "app-level hiding",
+      "traffic obfuscation",
+      "remote wiping",
+      "thermal damage",
+      "electromagnetic interference",
+      "SQLite manipulation",
+      "keychain corruption",
+      "VPN tunneling",
+      "proxy chains"
+    ]
+  },
+  "taxonomy_scope": "Mobile-specific"
+}
+
+ACTUAL QUERY:
+
+Here is the paper content:
+<Start of Paper Content>
+{content}
+<End of Paper Content>
+
+Your response:

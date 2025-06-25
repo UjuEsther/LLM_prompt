@@ -1,0 +1,213 @@
+You are tasked with identifying and categorizing forensic artifacts left behind by anti-forensic techniques, as explicitly discussed in the provided digital forensic paper.
+
+TASK OVERVIEW:
+Anti-forensic techniques often fail to completely hide evidence. Your job is to extract any forensic artifacts (residual data, files, or metadata) that remain after anti-forensic methods were applied. These artifacts prove that anti-forensic activity occurred and failed to fully conceal evidence.
+
+Guidelines:
+**STRICTLY FOLLOW ALL GUIDELINES**
+
+t1. Definition of Forensic Artifacts and Anti-Fornsic Activity:
+    - **Forensic artifacts**: Are residual data, files, or metadata unintentionally left behind after the use of anti-forensic techniques. These may include recovered files, logs, configurations, cached data, or other indicators that show tampering, wiping, or concealment attempts have failed.
+    - **Anti-forensic Activity**: Any method, action, or tool intentionally used to obscure, manipulate, destroy, or prevent access to digital evidence during forensic analysis.
+
+t2. Scope Limitation:
+    - Only extract artifacts that result from **anti-forensic activity**.
+    - Artifacts may originate from any digital environment, including:
+        - **Mobile devices** (e.g., smartphones, tablets, wearables, smartwatches, mobile IoT)
+        - **Non-mobile systems** (e.g., desktops, servers, cloud platforms)
+
+t3. Identify and list all valid forensic artifacts explicitly discussed in the paper.
+    - Focus only on artifacts that remain **after anti-forensics was applied**.
+    - Do not guess or assume; rely strictly on the content of the paper.
+    - Examples of valid artifacts:
+        - msgstore.db, chat logs remaining after deletion
+        - gesture.key or password.key surviving lock bypass
+        - Unwiped DCIM/ folders or thumbnail caches
+        - consolidated.db or cache.cell location history
+        - ntuser.dat, registry remnants, log traces on desktops
+
+t4. Categorize each artifact into one of the these categories:
+
+- **Application and User Data Artifacts**:
+  - App-level content and user-generated data (e.g., SQLite logs, app configs, credentials).
+
+- **System Artifacts**:
+  - Operating system or platform configuration traces (e.g., packages.xml, usage logs, registry entries, .plist files).
+
+- **Security and Authentication Artifacts**:
+  - Credentials and access control traces (e.g., lock patterns, password hashes, biometric keys, PIN bypass artifacts).
+
+- **Network and Location Artifacts**:
+  - Connectivity and geolocation traces (e.g., GPS logs, Wi-Fi MAC history, sync records).
+
+- **Multimedia Artifacts**:
+  - Residual or undeleted media (e.g., images, videos, thumbnails, cached media previews).
+
+t4a. If a forensic artifact does not clearly fall into any of the five predefined categories above, still include it in the response.
+    - Add it under the label: "Uncategorized Artifacts" in the output.
+    - This ensures that important but uncommon or newly observed artifact types are retained in the results.
+    - Only assign artifacts here if they are clearly mentioned and anti-forensics related, but do not logically match any of the defined categories.
+
+
+t5. Confirm whether anti-forensics is involved:
+    - Return "Yes" only if the artifact(s) are directly tied to anti-forensic methods, failures, or bypasses.
+    - Return "No" if the paper does not connect artifacts to anti-forensic techniques.
+
+t6. Confirm whether the artifacts come from a **mobile device** or **non-mobile device**:
+    - Return "Yes" if the artifacts are from smartphones, tablets, smartchwatch, wearables, PDAs e.t.c.
+    - Return "No" if the source is desktop, server, or cloud.
+    - Return "Unclear" if the paper does not specify the device type.
+
+t7. Identify the specific **device type** from which artifacts were recovered:
+    - Choose from: Smartphone, Tablet, Smartwatch, Wearable, Mobile IoT, Desktop, Server, Cloud Platform, Unknown.
+
+t8. Do not guess, generalize, or infer any artifact details. Only extract what is explicitly mentioned in the paper.
+
+
+OUTPUT FORMAT:
+Your response must be a valid JSON structure in the following format:
+
+{
+  "artifacts_discussed": "Yes / No",
+  "anti_forensics_involved": "Yes / No",
+  "mobile_artifacts": "Yes / No / Unclear",
+  "device_type": "Device Type",
+  "artifact_types": ["List of specific artifacts"],
+  "artifact_categories": {
+    "Application and User Data Artifacts": [],
+    "System Artifacts": [],
+    "Security and Authentication Artifacts": [],
+    "Network and Location Artifacts": [],
+    "Multimedia Artifacts": [],
+    "Uncategorized Artifacts": []
+  }
+}
+
+EXAMPLES:
+
+Example 1:
+"Even after uninstallation, the msgstore.db file containing WhatsApp chat messages remained intact under the /sdcard/WhatsApp/Databases directory. The gesture.key file was also recovered from /data/system, suggesting the pattern unlock mechanism had not been fully erased."
+
+Expected JSON output:
+{
+  "artifacts_discussed": "Yes",
+  "anti_forensics_involved": "Yes",
+  "mobile_artifacts": "Yes",
+  "device_type": "Smartphone",
+  "artifact_types": [
+    "msgstore.db",
+    "gesture.key"
+  ],
+  "artifact_categories": {
+    "Application and User Data Artifacts": ["msgstore.db"],
+    "System Artifacts": [],
+    "Security and Authentication Artifacts": ["gesture.key"],
+    "Network and Location Artifacts": [],
+    "Multimedia Artifacts": [],
+    "Uncategorized Artifacts": []
+  }
+}
+
+
+Example 2:
+Input: "The secure deletion tool failed to wipe the ntuser.dat registry hive on the Windows desktop system. Additionally, prefetch files in C:\Windows\Prefetch\ showed evidence of the wiping tool's execution. Thumbnail cache files in thumbcache_256.db also survived the deletion attempt, revealing previews of supposedly deleted images."
+
+Output:
+{
+  "artifacts_discussed": "Yes",
+  "anti_forensics_involved": "Yes",
+  "mobile_artifacts": "No",
+  "device_type": "Desktop",
+  "artifact_types": [
+    "ntuser.dat",
+    "prefetch files",
+    "thumbcache_256.db"
+  ],
+  "artifact_categories": {
+    "Application and User Data Artifacts": [],
+    "System Artifacts": ["ntuser.dat", "prefetch files"],
+    "Security and Authentication Artifacts": [],
+    "Network and Location Artifacts": [],
+    "Multimedia Artifacts": ["thumbcache_256.db"],
+    "Uncategorized Artifacts": []
+  }
+}
+
+
+Example 3:
+Input: "The smartwatch's health data sync logs persisted in the cloud storage even after the user deleted their local fitness tracking history. Network connection logs showing paired device MAC addresses were recovered from the wearable's flash memory despite factory reset attempts."
+
+Output:
+{
+  "artifacts_discussed": "Yes",
+  "anti_forensics_involved": "Yes",
+  "mobile_artifacts": "Yes",
+  "device_type": "Smartwatch",
+  "artifact_types": [
+    "health data sync logs",
+    "network connection logs",
+    "paired device MAC addresses"
+  ],
+  "artifact_categories": {
+    "Application and User Data Artifacts": ["health data sync logs"],
+    "System Artifacts": [],
+    "Security and Authentication Artifacts": [],
+    "Network and Location Artifacts": ["network connection logs", "paired device MAC addresses"],
+    "Multimedia Artifacts": [],
+    "Uncategorized Artifacts": []
+  }
+}
+
+
+Example 5:
+Input: "Forensic examination revealed unusual binary fragments in unallocated space that appeared to be remnants of a custom anti-forensic tool. These fragments, labeled as 'xhide_mod.bin' in the paper, didn't match any known artifact patterns but clearly indicated attempts to manipulate the file system metadata."
+
+Output:
+{
+  "artifacts_discussed": "Yes",
+  "anti_forensics_involved": "Yes",
+  "mobile_artifacts": "Unclear",
+  "device_type": "Unknown",
+  "artifact_types": [
+    "xhide_mod.bin"
+  ],
+  "artifact_categories": {
+    "Application and User Data Artifacts": [],
+    "System Artifacts": [],
+    "Security and Authentication Artifacts": [],
+    "Network and Location Artifacts": [],
+    "Multimedia Artifacts": [],
+    "Uncategorized Artifacts": ["xhide_mod.bin"]
+  }
+}
+
+Example 6:
+Input: "The research focused on analyzing network traffic patterns and developing new encryption algorithms. No evidence of data deletion or concealment attempts was found during the study."
+
+Output:
+{
+  "artifacts_discussed": "No",
+  "anti_forensics_involved": "No",
+  "mobile_artifacts": "Unclear",
+  "device_type": "Unknown",
+  "artifact_types": [],
+  "artifact_categories": {
+    "Application and User Data Artifacts": [],
+    "System Artifacts": [],
+    "Security and Authentication Artifacts": [],
+    "Network and Location Artifacts": [],
+    "Multimedia Artifacts": [],
+    "Uncategorized Artifacts": []
+  }
+}
+
+
+
+ACTUAL QUERY:
+
+Here is the paper content:
+<Start of Paper Content>
+{content}
+<End of Paper Content>
+
+Your response:

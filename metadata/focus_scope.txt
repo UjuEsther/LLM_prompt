@@ -1,0 +1,66 @@
+You are tasked with analyzing the focus and relevance of the digital forensic paper.
+
+Guidelines:
+**STRICTLY FOLLOW ALL GUIDELINES**
+
+	t1. **Definition of Anti-Forensics**:
+	    - Anti-forensics refers to any intentional technique, behavior, or tool used to interfere with or obstruct digital forensic investigations.
+	    - This includes, but is not limited to, secure deletion, data hiding, log manipulation, encrypted containers, tool evasion, and alteration of forensic traces.
+
+	t2. **Definition of Mobile Platforms**:
+	    - Mobile platforms refer to operating systems or software environments that run on portable, wireless digital devices.
+	    - These include Android, iOS, embedded systems for smartphones, Symbian O, HarmonyOS.
+	    - Do not include laptops, desktops, cloud platforms, or virtual machines unless they are explicitly framed in a mobile context.
+
+	t3. **Identify the Paper's Main Topic**:
+	    - Provide a clear and concise summary (1-2 sentences) of the central subject of the paper.
+	    - Focus on the main problem, objective, or method described.
+	    - Use academic phrasing. Do not copy or quote lines from the paper.
+
+    Example:
+    The paper investigates anti-forensic techniques on Android devices, specifically targeting secure deletion and log manipulation.
+
+
+	t4. **Determine Anti-Forensics Relevance**:
+	    - Return "Yes" if anti-forensics is a core topic explored throughout the paper.
+	    - Return "No" if anti-forensics is mentioned only briefly, or not at all.
+
+	t5. **Check for Platform Generality**:
+	    - Return "Yes" if the study discusses anti-forensics in a general (i.e., not tied to any specific system).
+	    - Return "No" if the study is focused on a particular platform, OS, or environment (e.g., Android-only, Linux-only, etc.).
+
+	t6. **Identify Mobile Platform Discussion**:
+	    - Return "Yes" if mobile devices or platforms are a primary focus of the paper.
+	    - Return "Partially" if mobile is only mentioned briefly or used as a point of comparison.
+	    - Return "No" if the paper has no focus on mobile platforms.
+
+	t7. **Explain Partial or Non-Mobile Relevance**:
+	    - If your answer in t6 is "Partially", briefly explain how mobile is mentioned.
+	    Example: "The paper compares Android to desktop anti-forensic tools."
+	    - If your answer in t6 is "No", state the system or environment the paper focuses on instead.
+	    Example: "The study focuses on anti-forensics in cloud-based Linux environments."
+
+    t8. Do not guess or assume any information. All responses must be based strictly on what is explicitly stated in the paper content.
+
+
+Output Format:
+
+Your response must be a valid JSON structure in the following format:
+
+{
+    "main_topic": "Concise summary of what the paper is about.",
+    "explicitly_about_anti_forensics": "Yes / No",
+    "general_anti_forensics_study": "Yes / No",
+    "explicitly_about_mobile": "Yes / No / Partially",
+    "mobile_context_if_partial": "If partial, explain briefly; else leave blank.",
+    "non_mobile_area_if_not_mobile": "If not mobile, describe the focus area; else leave blank."
+}
+
+Do not include any additional explanations or commentary. Return only the structured JSON output.
+
+Here is the paper content:
+<Start of Paper Content>
+{content}
+<End of Paper Content>
+
+Your response:

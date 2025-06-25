@@ -1,0 +1,195 @@
+You are tasked with extracting and categorizing all anti-forensic techniques and tools explicitly discussed in the provided digital forensic paper.
+
+Guidelines:
+**STRICTLY FOLLOW ALL GUIDELINES**
+
+t1. Definition of Anti-Forensics:
+    - Anti-forensics refers to any method, action, or tool that is intentionally used to obscure, manipulate, destroy, or prevent access to digital evidence during forensic analysis.
+
+t2. Use the Conlan et al. (2016) taxonomy to classify each anti-forensic technique. The categories are:
+
+    - **Data Hiding**: Techniques that conceal the existence of data or evidence. 
+        Examples: encryption, steganography, tunneling and so on.
+
+    - **Artifact Wiping**: Techniques that deliberately remove traces or residual data from a system. 
+        Examples: secure deletion, wiping logs, and registry cleaners.
+
+    - **Trail Obfuscation**: Techniques that manipulate or falsify traces to confuse forensic analysis. 
+        Examples: spoofing, timestamp manipulation, and synthetic log generation.
+
+    - **Attacks Against Forensic Tools and Processes**: Methods that directly target forensic software or analysis workflows to evade or disrupt detection. 
+        Examples: crashing forensic tools, disabling monitoring agents, or anti-debugging methods.
+
+    - **Possible Indications of Anti-Forensic Activity**: Observable signs that suggest anti-forensics is in use, even if the specific technique is unknown. 
+        Examples: the presence of encrypted virtual machines, unrecognized file structures, or anti-forensics apps.
+
+t3. Make sure to include only techniques that are explicitly described in the paper.
+    - Do not infer a technique if it is only referenced or assumed.
+
+t4. If a technique does not match any of the five Conlan categories:
+    - Check if the paper defines a new category. If so, label it as:
+        "New Category: [Category Name] (Short explanation)"
+    - If no new category is defined but the technique is still valid, label it as:
+        "Other (Brief reason why it doesn't match existing taxonomy)"
+
+t5. Identify all named anti-forensics tools, software, or apps explicitly mentioned in the paper.
+    - Only include tools if they are clearly linked to anti-forensic functions.
+
+t6. For each technique, determine whether the paper explicitly states that it was developed, designed or used specifically for mobile devices.
+    - Return "Yes" if the paper clearly states the technique is designed for mobile targeting such as smartphones, Android, iOS, tablets, smartwatches, or similar.
+    - Return "No" if the paper presents it as a general anti-forensics technique without reference to mobile use.
+    - Return "Unclear" if the paper does not mention the intended platform at all.
+
+Do not infer. Only mark "Yes" if the mobile context is explicitly stated in the paper.
+
+t7. Do not guess or assume the presence of techniques or tools. Only include entries that are directly and clearly stated in the paper.
+
+Output Format:
+Your response must be a valid JSON structure in the following format:
+
+{
+  "techniques_mentioned": ["List of anti-forensic techniques"],
+  "technique_categories": {
+    "Technique 1": "Category",
+    "Technique 2": "Category or New Category: [Name] (Explanation)"
+  },
+  "tools_mentioned": ["List of tools"],
+  "mobile_specificity": {
+    "Technique": "Yes / No / Unclear"
+  }
+}
+
+Do not include any explanations or commentary. Return only the structured JSON output.
+
+EXAMPLES:
+
+Example 1:
+Input: "Disk encryption and file wiping tools such as Magikfs were evaluated to assess their ability to hide evidence on Windows systems. VPN tunneling and steganographic file systems are also considered as effective methods to obscure user data."
+
+Output:
+{
+  "techniques_mentioned": [
+    "Disk encryption",
+    "File wiping",
+    "VPN tunneling",
+    "Steganographic file systems"
+  ],
+  "technique_categories": {
+    "Disk encryption": "Data Hiding",
+    "File wiping": "Artifact Wiping",
+    "VPN tunneling": "Data Hiding",
+    "Steganographic file systems": "Data Hiding"
+  },
+  "tools_mentioned": [
+    "Magikfs"
+  ],
+  "mobile_specificity": {
+    "Disk encryption": "No",
+    "File wiping": "No",
+    "VPN tunneling": "No",
+    "Steganographic file systems": "No"
+  }
+}
+
+Example 2:
+Input: "The authors present an Android-focused tool called WipeDroid, designed to securely delete app-specific data from internal memory. The tool automates the process of locating SQLite databases and overwrites them using random pass routines. This approach prevents recovery via forensic tools like Cellebrite or Autopsy."
+
+Output:
+{
+  "techniques_mentioned": [
+    "Secure deletion"
+  ],
+  "technique_categories": {
+    "Secure deletion": "Artifact Wiping"
+  },
+  "tools_mentioned": [
+    "WipeDroid"
+  ],
+  "mobile_specificity": {
+    "Secure deletion": "Yes"
+  }
+}
+
+
+Example 3:
+Input: "The study introduces a new category called 'Behavioral Camouflage' which involves mimicking legitimate user behavior patterns to avoid detection. Techniques include automated mouse movement simulation and keystroke pattern replication. We also tested anti-debugging mechanisms that crash popular forensic tools like EnCase and FTK when they attempt to analyze protected executables."
+
+Output:
+{
+  "techniques_mentioned": [
+    "Automated mouse movement simulation",
+    "Keystroke pattern replication",
+    "Anti-debugging mechanisms"
+  ],
+  "technique_categories": {
+    "Automated mouse movement simulation": "New Category: Behavioral Camouflage (Mimicking legitimate user behavior patterns)",
+    "Keystroke pattern replication": "New Category: Behavioral Camouflage (Mimicking legitimate user behavior patterns)",
+    "Anti-debugging mechanisms": "Attacks Against Forensic Tools and Processes"
+  },
+  "tools_mentioned": [],
+  "mobile_specificity": {
+    "Automated mouse movement simulation": "Unclear",
+    "Keystroke pattern replication": "Unclear",
+    "Anti-debugging mechanisms": "Unclear"
+  }
+}
+
+Example 4:
+Input: "To hinder forensic correlation, the study introduces a spoofing framework that alters Bluetooth MAC addresses and device identifiers on rooted Android devices. It also modifies EXIF metadata in captured images. The spoofed data was tested across multiple forensic extraction tools."
+
+Output:
+{
+  "techniques_mentioned": [
+    "Bluetooth MAC address spoofing",
+    "EXIF metadata manipulation"
+  ],
+  "technique_categories": {
+    "Bluetooth MAC address spoofing": "Trail Obfuscation",
+    "EXIF metadata manipulation": "Trail Obfuscation"
+  },
+  "tools_mentioned": [],
+  "mobile_specificity": {
+    "Bluetooth MAC address spoofing": "Yes",
+    "EXIF metadata manipulation": "Yes"
+  }
+}
+
+Example 5:
+Input: "Network traffic redirection through proxy chains was implemented to hide the origin of communications. The paper also discusses quantum-resistant encryption methods that current forensic tools cannot decrypt, though these don't fit neatly into existing anti-forensic categories. Registry key modification tools like RegDelNull were used to remove null-embedded registry entries that forensic tools often miss."
+
+Output:
+{
+  "techniques_mentioned": [
+    "Network traffic redirection",
+    "Proxy chains",
+    "Quantum-resistant encryption",
+    "Registry key modification",
+    "Null-embedded registry entries removal"
+  ],
+  "technique_categories": {
+    "Network traffic redirection": "Trail Obfuscation",
+    "Proxy chains": "Trail Obfuscation",
+    "Quantum-resistant encryption": "Other (Advanced encryption that doesn't fit standard categories)",
+    "Registry key modification": "Artifact Wiping",
+    "Null-embedded registry entries removal": "Artifact Wiping"
+  },
+  "tools_mentioned": [
+    "RegDelNull"
+  ],
+  "mobile_specificity": {
+    "Network traffic redirection": "Unclear",
+    "Proxy chains": "Unclear",
+    "Quantum-resistant encryption": "Unclear",
+    "Registry key modification": "No",
+    "Null-embedded registry entries removal": "No"
+  }
+}
+
+
+ACTUAL QUERY:
+
+Input: <Start of Paper Content>
+{content}
+<End of Paper Content>
+
+Output:
